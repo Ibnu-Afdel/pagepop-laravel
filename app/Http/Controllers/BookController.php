@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BookController extends Controller
 {
@@ -12,7 +13,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Index', [
+            'books' => Book::get()
+        ]);
     }
 
     /**
@@ -20,7 +23,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Create');
     }
 
     /**
@@ -28,7 +31,12 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Book::create([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);
+
+        return redirect(('/books'));
     }
 
     /**
@@ -36,7 +44,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return Inertia::render('Show', [
+            'book' => $book
+        ]);
     }
 
     /**
@@ -44,7 +54,9 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return Inertia::render('Edit', [
+            'book' => $book
+        ]);
     }
 
     /**
@@ -52,7 +64,12 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $book->update([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);
+
+        return redirect('/books');
     }
 
     /**
@@ -60,6 +77,6 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
     }
 }
